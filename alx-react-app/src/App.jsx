@@ -34,9 +34,9 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       <UserProfile
-       name="Sammy"
-       age="20" 
-       bio="Knowledge is power" 
+       name="Alice"
+       age="25" 
+       bio="Loves hiking and phtography" 
       />
 
       <WelcomeMessage />
