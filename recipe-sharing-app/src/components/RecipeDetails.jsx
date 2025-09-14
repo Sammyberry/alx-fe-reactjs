@@ -1,45 +1,21 @@
-import { Link, useParams, useNavigate } from "react-router-dom";
+// src/components/RecipeDetails.jsx
 import useRecipeStore from "./recipeStore";
-import DeleteRecipeButton from "./DeleteRecipeButton";
 
-const RecipeDetails = () => {
-  const { id } = useParams();
-  const recipeId = Number(id);
-  const recipe = useRecipeStore((s) =>
-    s.recipes.find((r) => r.id === recipeId)
+const RecipeDetails = ({ recipeId }) => {
+  const recipe = useRecipeStore((state) =>
+    state.recipes.find((recipe) => recipe.id === recipeId)
   );
-  const navigate = useNavigate();
 
   if (!recipe) {
-    return (
-      <div>
-        <p>Recipe not found.</p>
-        <button
-          onClick={() => navigate(-1)}
-          className="mt-2 underline text-blue-600"
-        >
-          Go back
-        </button>
-      </div>
-    );
+    return <p className="text-red-500">Recipe not found.</p>;
   }
 
   return (
-    <div className="p-4 border rounded bg-white shadow-sm">
-      <h1 className="text-2xl font-bold mb-2">{recipe.title}</h1>
+    <div className="p-4 border rounded-md shadow-md bg-white">
+      <h1 className="text-xl font-bold mb-2">{recipe.title}</h1>
       <p className="mb-4">{recipe.description}</p>
-      <div className="flex gap-2">
-        <Link
-          to={`/recipes/${recipeId}/edit`}
-          className="text-yellow-600 underline"
-        >
-          Edit
-        </Link>
-        <DeleteRecipeButton id={recipeId} />
-        <Link to="/" className="text-blue-600 underline">
-          Back to list
-        </Link>
-      </div>
+      <p className="text-sm text-gray-500">Recipe ID: {recipe.id}</p>
+      {/* Later: Add EditRecipeForm and DeleteRecipeButton here */}
     </div>
   );
 };
