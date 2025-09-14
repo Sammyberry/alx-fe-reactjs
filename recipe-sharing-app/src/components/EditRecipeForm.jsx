@@ -1,77 +1,47 @@
 // src/components/EditRecipeForm.jsx
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import useRecipeStore from "./recipeStore";
 
-const EditRecipeForm = () => {
-  const { id } = useParams();
-  const recipeId = Number(id);
-  const recipe = useRecipeStore((s) =>
-    s.recipes.find((r) => r.id === recipeId)
-  );
-  const updateRecipe = useRecipeStore((s) => s.updateRecipe);
-  const navigate = useNavigate();
+const EditRecipeForm = ({ recipe, onClose }) => {
+  const updateRecipe = useRecipeStore((state) => state.updateRecipe);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState(recipe.title);
+  const [description, setDescription] = useState(recipe.description);
 
-  useEffect(() => {
-    if (recipe) {
-      setTitle(recipe.title);
-      setDescription(recipe.description);
-    }
-  }, [recipe]);
-
-  if (!recipe) {
-    return <p>Recipe not found.</p>;
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title.trim() || !description.trim()) {
-      alert("Both title and description are required.");
-      return;
-    }
-    updateRecipe(recipeId, {
-      title: title.trim(),
-      description: description.trim(),
-    });
-    navigate(`/recipes/${recipeId}`);
+  const handleSubmit = (event) => {
+    event.preventDefault(); // ✅ prevents page reload
+    updateRecipe(recipe.id, { title, description });
+    if (onClose) onClose(); // close form after update if callback provided
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-4 border rounded bg-white shadow-sm"
+      className="p-4 border rounded bg-gray-100 shadow-md"
     >
-      <h2 className="text-xl font-semibold mb-3">Edit Recipe</h2>
+      <h2 className="text-lg font-bold mb-2">Edit Recipe</h2>
+
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="border p-2 rounded w-full mb-2"
+        placeholder="Title"
+        className="block w-full p-2 mb-2 border rounded"
       />
+
       <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        className="border p-2 rounded w-full mb-2"
-        rows={6}
+        placeholder="Description"
+        className="block w-full p-2 mb-2 border rounded"
       />
-      <div className="flex gap-2">
-        <button
-          type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
-          Save
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="bg-gray-200 px-4 py-2 rounded"
-        >
-          Cancel
-        </button>
-      </div>
+
+      <button
+        type="submit"
+        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+      >
+        Save Changes
+      </button>
     </form>
   );
 };
