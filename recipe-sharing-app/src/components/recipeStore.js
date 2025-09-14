@@ -3,45 +3,36 @@ import { create } from "zustand";
 
 const useRecipeStore = create((set, get) => ({
   recipes: [],
-
-  // search state
   searchTerm: "",
+  setSearchTerm: (term) => set({ searchTerm: term }),
 
-  // update search term
-  setSearchTerm: (term) => {
-    set({ searchTerm: term });
+  // 🔎 Filtering
+  filteredRecipes: () => {
+    const state = get();
+    return state.recipes.filter((recipe) =>
+      recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+    );
   },
 
-  // add new recipe
-  addRecipe: (recipe) =>
+  // ❤️ Favorites
+  favorites: [],
+  addFavorite: (recipeId) =>
     set((state) => ({
-      recipes: [...state.recipes, { id: Date.now(), ...recipe }],
+      favorites: [...new Set([...state.favorites, recipeId])], // avoid duplicates
+    })),
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
     })),
 
-  // edit recipe
-  editRecipe: (id, updatedRecipe) =>
-    set((state) => ({
-      recipes: state.recipes.map((r) =>
-        r.id === id ? { ...r, ...updatedRecipe } : r
-      ),
-    })),
-
-  // delete recipe
-  deleteRecipe: (id) =>
-    set((state) => ({
-      recipes: state.recipes.filter((r) => r.id !== id),
-    })),
-
-  // computed filtered recipes (always up-to-date)
-  filteredRecipes: () => {
-    const { recipes, searchTerm } = get();
-    if (!searchTerm.trim()) return recipes;
-
-    return recipes.filter(
-      (r) =>
-        r.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        r.ingredients.toLowerCase().includes(searchTerm.toLowerCase())
+  // ⭐ Recommendations (mock example)
+  recommendations: [],
+  generateRecommendations: () => {
+    const state = get();
+    const recommended = state.recipes.filter(
+      (recipe) => !state.favorites.includes(recipe.id) && Math.random() > 0.5 // mock logic
     );
+    set({ recommendations: recommended });
   },
 }));
 
