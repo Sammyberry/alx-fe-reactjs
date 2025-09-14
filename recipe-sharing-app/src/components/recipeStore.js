@@ -1,58 +1,47 @@
 // src/components/recipeStore.js
 import { create } from "zustand";
 
-const STORAGE_KEY = "recipes_v1";
+const useRecipeStore = create((set, get) => ({
+  recipes: [],
 
-const loadRecipes = () => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (err) {
-    console.error("Failed to load recipes from localStorage", err);
-    return [];
-  }
-};
+  // search state
+  searchTerm: "",
 
-const saveRecipes = (recipes) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes));
-  } catch (err) {
-    console.error("Failed to save recipes to localStorage", err);
-  }
-};
-
-const useRecipeStore = create((set) => ({
-  recipes: loadRecipes(),
-
-  addRecipe: (newRecipe) => {
-    set((state) => {
-      const updated = [...state.recipes, newRecipe];
-      saveRecipes(updated);
-      return { recipes: updated };
-    });
+  // update search term
+  setSearchTerm: (term) => {
+    set({ searchTerm: term });
   },
 
-  updateRecipe: (id, updatedFields) => {
-    set((state) => {
-      const updated = state.recipes.map((r) =>
-        r.id === id ? { ...r, ...updatedFields } : r
-      );
-      saveRecipes(updated);
-      return { recipes: updated };
-    });
-  },
+  // add new recipe
+  addRecipe: (recipe) =>
+    set((state) => ({
+      recipes: [...state.recipes, { id: Date.now(), ...recipe }],
+    })),
 
-  deleteRecipe: (id) => {
-    set((state) => {
-      const updated = state.recipes.filter((r) => r.id !== id);
-      saveRecipes(updated);
-      return { recipes: updated };
-    });
-  },
+  // edit recipe
+  editRecipe: (id, updatedRecipe) =>
+    set((state) => ({
+      recipes: state.recipes.map((r) =>
+        r.id === id ? { ...r, ...updatedRecipe } : r
+      ),
+    })),
 
-  setRecipes: (recipes) => {
-    saveRecipes(recipes);
-    set({ recipes });
+  // delete recipe
+  deleteRecipe: (id) =>
+    set((state) => ({
+      recipes: state.recipes.filter((r) => r.id !== id),
+    })),
+
+  // computed filtered recipes (always up-to-date)
+  filteredRecipes: () => {
+    const { recipes, searchTerm } = get();
+    if (!searchTerm.trim()) return recipes;
+
+    return recipes.filter(
+      (r) =>
+        r.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        r.ingredients.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   },
 }));
 
