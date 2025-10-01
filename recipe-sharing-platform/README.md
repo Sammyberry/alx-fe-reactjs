@@ -1,16 +1,28 @@
-# React + Vite
+# 🍴 Recipe Sharing Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive Recipe Sharing Platform built with **React** and **Tailwind CSS**.  
+Users can browse recipes, view detailed instructions, and add their own recipes using a submission form.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+- 🏠 **Home Page**: Displays a responsive grid of recipe cards with images, titles, and summaries.
+- 📖 **Recipe Detail Page**: Shows detailed ingredients and step-by-step instructions.
+- ➕ **Add Recipe Form**: Users can submit new recipes with validation for title, ingredients, and preparation steps.
+- 🎨 **Dark Theme**: Consistent modern dark mode UI across all pages.
+- 📱 **Responsive Design**: Works seamlessly on mobile, tablet, and desktop.
+- ⚡ **React Router**: Enables smooth navigation between pages.
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React** (Vite or CRA)
+- **React Router DOM**
+- **Tailwind CSS**
+
+---
+
+## 📂 Project Structure
+
