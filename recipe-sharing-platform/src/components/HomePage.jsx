@@ -1,29 +1,29 @@
 // src/components/HomePage.jsx
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // ✅ use React Router navigation
-import data from "../data.json"; // ✅ importing mock data from src
+import { Link } from "react-router-dom";
+import data from "../data.json";
 
 function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
-  // Load recipes from JSON when component mounts
+  // ✅ Use useEffect to load data
   useEffect(() => {
     setRecipes(data);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-900 p-6 text-gray-100">
       {/* Page Title */}
-      <h1 className="text-4xl font-bold text-center mb-10 text-gray-800">
+      <h1 className="text-4xl font-bold text-center mb-10 text-white">
         🍴 Recipe Sharing Platform
       </h1>
 
-      {/* Responsive Grid for Recipe Cards */}
+      {/* Responsive Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {recipes.map((recipe) => (
           <div
             key={recipe.id}
-            className="bg-white rounded-xl shadow-md overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl duration-300"
+            className="bg-gray-800 rounded-xl shadow-md overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl duration-300"
           >
             {/* Recipe Image */}
             <div className="overflow-hidden">
@@ -36,15 +36,15 @@ function HomePage() {
 
             {/* Card Content */}
             <div className="p-4">
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="text-xl font-semibold text-white">
                 {recipe.title}
               </h2>
-              <p className="text-gray-600 text-sm mt-2">{recipe.summary}</p>
+              <p className="text-gray-300 text-sm mt-2">{recipe.summary}</p>
 
-              {/* Link to Recipe Detail Page */}
+              {/* Link */}
               <Link
                 to={`/recipe/${recipe.id}`}
-                className="inline-block mt-4 text-blue-600 font-medium hover:underline"
+                className="inline-block mt-4 text-yellow-400 font-medium hover:underline"
               >
                 View Recipe →
               </Link>
