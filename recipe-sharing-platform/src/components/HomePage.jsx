@@ -17,6 +17,14 @@ function HomePage() {
       <h1 className="text-4xl font-bold text-center mb-10 text-white">
         🍴 Recipe Sharing Platform
       </h1>
+      
+      {/* Add Recipe Link */}
+      <Link
+        to="/add"
+        className="inline-block mb-6 px-4 py-2 bg-yellow-500 text-gray-900 font-semibold rounded-lg shadow-md hover:bg-yellow-400 transition"
+      >
+        ➕ Add New Recipe
+      </Link>
 
       {/* Responsive Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
