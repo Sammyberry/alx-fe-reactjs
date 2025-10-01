@@ -1,11 +1,12 @@
 // src/components/HomePage.jsx
 import React, { useState, useEffect } from "react";
-import data from "../data.json"; // using mock data from src
+import { Link } from "react-router-dom"; // ✅ use React Router navigation
+import data from "../data.json"; // ✅ importing mock data from src
 
 function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
-  // Load recipes into state
+  // Load recipes from JSON when component mounts
   useEffect(() => {
     setRecipes(data);
   }, []);
@@ -29,7 +30,7 @@ function HomePage() {
               <img
                 src={recipe.image}
                 alt={recipe.title}
-                className="w-full object-contain max-h-60 bg-gray-50"
+                className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
               />
             </div>
 
@@ -39,12 +40,14 @@ function HomePage() {
                 {recipe.title}
               </h2>
               <p className="text-gray-600 text-sm mt-2">{recipe.summary}</p>
-              <a
-                href={`/recipe/${recipe.id}`}
+
+              {/* Link to Recipe Detail Page */}
+              <Link
+                to={`/recipe/${recipe.id}`}
                 className="inline-block mt-4 text-blue-600 font-medium hover:underline"
               >
                 View Recipe →
-              </a>
+              </Link>
             </div>
           </div>
         ))}
